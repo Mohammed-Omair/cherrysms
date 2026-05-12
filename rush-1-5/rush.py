@@ -9,30 +9,33 @@ def rush(x, y):
         x (int): Width of the square
         y (int): Height of the square
     """
-    if x <= 0 or y <= 0:
+    try:
+        if not isinstance(x, int) or not isinstance(y, int) or isinstance(x, bool) or isinstance(y, bool) or x <= 0 or y <= 0:
+            print("Invalid size", file=sys.stderr)
+            return
+
+        for row in range(y):
+            line = ""
+            for col in range(x):
+                is_top = row == 0
+                is_bot = row == y - 1
+                is_left = col == 0
+                is_right = col == x - 1
+
+                if (is_top and is_left) or (is_bot and is_right):
+                    if y > 1 and x > 1:
+                        line += "A"
+                    else:
+                        line += "B"
+                elif (is_top and is_right) or (is_bot and is_left):
+                    if y > 1 and x > 1:
+                        line += "C"
+                    else:
+                        line += "B"
+                elif is_top or is_bot or is_left or is_right:
+                    line += "B"
+                else:
+                    line += " "
+            print(line)
+    except Exception:
         print("Invalid size", file=sys.stderr)
-        return
-
-    for row in range(y):
-        line = ""
-        for col in range(x):
-            is_top = row == 0
-            is_bot = row == y - 1
-            is_left = col == 0
-            is_right = col == x - 1
-
-            if (is_top and is_left) or (is_bot and is_right):
-                if y > 1 and x > 1:
-                    line += "A"
-                else:
-                    line += "B"
-            elif (is_top and is_right) or (is_bot and is_left):
-                if y > 1 and x > 1:
-                    line += "C"
-                else:
-                    line += "B"
-            elif is_top or is_bot or is_left or is_right:
-                line += "B"
-            else:
-                line += " "
-        print(line)
